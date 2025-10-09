@@ -1,0 +1,28 @@
+{
+  "songs": [
+    {
+      "title": "Isle Dawn",
+      "artist": "Evan Bei",
+      "album": "Island Suite",
+      "year": "2025",
+      "isrc": "GB-GBL-25-00001",
+      "url": "media/isle_dawn_320.mp3",
+      "cover": "media/isle_dawn_cover.jpg",
+      "duration": "3:45",
+      "lyrics": "Verse 1...\nChorus...\n(lyrics here)",
+      "notes": "Produced with Evan Bei Music Studio 3.0"
+    },
+    {
+      "title": "Deep Current",
+      "artist": "Evan Bei",
+      "album": "DeepCurrent EP",
+      "year": "2025",
+      "isrc": "GB-GBL-25-00002",
+      "url": "media/deep_current_320.mp3",
+      "cover": "media/deep_current_cover.jpg",
+      "duration": "4:12",
+      "lyrics": "Lyrics for Deep Current...",
+      "notes": "Mix exported as 320kbps MP3"
+    }
+  ]
+}

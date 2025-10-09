@@ -1,0 +1,7 @@
+music/
+├─ index.html
+├─ styles.css
+├─ player.js
+├─ songs.json
+├─ sw.js            (可选：Service Worker for caching)
+└─ README.md
