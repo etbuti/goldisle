@@ -2,76 +2,113 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Goldisle Music</title>
+    <title>Goldisle Music Player</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: #eef3ff;
-            color: #222;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(135deg, #e0f0ff, #f8fbff);
+            color: #1e2a4a;
             text-align: center;
-            margin: 0;
-            padding: 40px;
+            padding: 40px 10px;
         }
         h1 {
-            color: #1e3c72;
+            color: #003366;
             margin-bottom: 10px;
+            font-weight: 600;
         }
-        .player {
-            margin: 30px auto;
-        }
-        ul {
+        #playlist {
             list-style: none;
             padding: 0;
+            margin-top: 20px;
         }
         li {
-            margin: 10px 0;
+            margin: 12px 0;
         }
         button {
-            background-color: #1e90ff;
+            background-color: #2b6cb0;
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 15px;
             cursor: pointer;
-            font-size: 14px;
+            transition: all 0.2s ease-in-out;
         }
         button:hover {
-            background-color: #0d6efd;
+            background-color: #1e4e8c;
+            transform: scale(1.05);
+        }
+        audio {
+            margin-top: 20px;
+            width: 80%;
+            max-width: 500px;
         }
         footer {
-            margin-top: 40px;
+            margin-top: 50px;
             font-size: 13px;
-            color: #555;
+            color: #666;
         }
     </style>
 </head>
 <body>
-    <h1>🎵 Goldisle Music</h1>
-    <p>Hosted by Goldisle Light Org (UK)</p>
+    <h1>🎶 Goldisle Music</h1>
+    <p>Independent Label · Evan Bei / billund</p>
 
-    <div class="player">
-        <audio id="audioPlayer" controls>
-            <source src="media/song1.mp3" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
-    </div>
+    <audio id="player" controls>
+        <source src="" type="audio/mpeg">
+        Your browser does not support audio playback.
+    </audio>
 
-    <ul id="playlist">
-        <li><button onclick="playSong('media/song1.mp3')">▶️ Song 1</button></li>
-        <li><button onclick="playSong('media/song2.mp3')">▶️ Song 2</button></li>
-    </ul>
+    <ul id="playlist"></ul>
 
     <footer>
-        <p>© 2025 Goldisle Light Org (UK) | Private AI Browser | Contact: isletoken@proton.me</p>
+        <p>© 2025 Goldisle Light Org (UK) · Private AI Music Browser</p>
+        <p>📩 isletoken@proton.me</p>
     </footer>
 
     <script>
-        const player = document.getElementById("audioPlayer");
-        function playSong(src) {
-            player.src = src;
-            player.play();
+        // 自动扫描 media 文件夹
+        async function loadPlaylist() {
+            const playlist = document.getElementById("playlist");
+            const player = document.getElementById("player");
+
+            try {
+                // 读取 GitHub Pages 的 media 文件夹索引
+                const response = await fetch("media/");
+                const text = await response.text();
+
+                // 解析文件名
+                const matches = Array.from(text.matchAll(/href="([^"]+\.(mp3|wav|ogg))"/g));
+                const files = matches.map(m => m[1]);
+
+                if (files.length === 0) {
+                    playlist.innerHTML = "<li>No songs found in /media</li>";
+                    return;
+                }
+
+                // 动态生成播放列表
+                files.forEach(file => {
+                    const li = document.createElement("li");
+                    const btn = document.createElement("button");
+                    btn.textContent = "▶️ " + decodeURIComponent(file);
+                    btn.onclick = () => {
+                        player.src = "media/" + file;
+                        player.play();
+                    };
+                    li.appendChild(btn);
+                    playlist.appendChild(li);
+                });
+
+                // 默认加载第一首
+                player.src = "media/" + files[0];
+
+            } catch (e) {
+                playlist.innerHTML = "<li>⚠️ Unable to load playlist. GitHub Pages may block directory listing.</li>";
+            }
         }
+
+        loadPlaylist();
     </script>
 </body>
 </html>
